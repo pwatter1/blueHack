@@ -5,9 +5,12 @@ var app = express()
 app.get('/', function (req, res) {
   res.send('hello world')
 })  
-
 app.post('/', function (req, res) {
-  res.send('POST example')
+  var response = {
+    data:"hello",
+    code:200
+    }
+  res.send(JSON.stringify(response));
 })
 
 app.listen(8080, function () {

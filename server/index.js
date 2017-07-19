@@ -3,7 +3,7 @@ var app = express()
 
 // respond with "hello world" when a GET request is made to the homepage
 app.get('/', function (req, res) {
-  res.send('hello world')
+  res.sendFile('index.html', { root: __dirname });
 })  
 app.post('/', function (req, res) {
   var response = {

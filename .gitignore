@@ -1,3 +1,6 @@
 *.swp
 *.pyc
 server/node_modules/*
+paypal/inpipe
+paypal/outpipe
+

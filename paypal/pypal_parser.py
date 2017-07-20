@@ -11,45 +11,63 @@ import json
 import os
 import errno
 import sys
-from datetime import datetime
 from payments import charge, pay
 import random, string
 
-FIFO = 'mypipe'
+FI = 'inpipe'
+FO = "outpipe"
 
 try:
-	os.mkfifo(FIFO)	
+	os.mkfifo(FI)
+	os.mkfifo(FO)	
 except OSError as oe:
 	if oe.errno != errno.EEXIST:
 		raise
 
+
 def parse_args():
+		
 	while(True): # continuously reopen
-		with open(FIFO) as fifo:
+		with open(FI) as fi:
 			while(True): 
-				data = fifo.read()
-				if len(data) == 0: # or delimiter
+				data = fi.read()
+				if len(data) == 0 or data == "!": # delimiter
 					break 
 				parse_json(data)		
 	
 	
 def parse_json(data):
-	jsn = yaml.safe_load(data)	
-	cmd = jsn["pypal"]["command"]["cmd"]
-	se = jsn["pypal"]["command"]["sender_email"]
-	re = jsn["pypal"]["command"]["receiver_email"]
-	note = jsn["pypal"]["command"]["args"]["note"]
-	amt = jsn["pypal"]["command"]["args"]["amt"]
+	jsn      = yaml.safe_load(data)	
+	cmd      = jsn["pypal"]["command"]["cmd"]
+	sender   = (jsn["pypal"]["command"]["sender_email"]) 
+	receiver = (jsn["pypal"]["command"]["receiver_email"])
+	amt      = jsn["pypal"]["command"]["args"]["amt"]
 
 	if cmd == "pay":
-		if pay(amt, note, re, se):
-			print("success")	
-		else:
-			print("failure")
+		retVal = pay(sender, receiver, amt)
+		print(retVal)
+		# send_return_json(retVal, receiver)
 	else:
-		# charge(amt, note, re, se)
-		pass
+		retVal = charge(sender, receiver, amt)
+		# send_return_json(retVal, sender)			
 
+
+def send_return_json(retVal, user_getting_money):
+	jsn = {"val": retVal, "user": user_getting_money.email, "user_balance": user_getting_money.acct.getBalance()} 
+	fo = open('outpipe', 'w')
+	fo.write(str(jsn))
+
+'''
+def createUsers():
+	with open('users.json') as json_data:
+		d = json.load(json_data)
+		for i in range(d["users"].items()):
+			bal = d["users"][i]["balance"]
+			email = d["users"][i]["email"]
+			pswrd = d["users"][i]["email"]
+			global users.append( User(bal, email, pswrd) )
+'''			
+	
 def main():
 	try:
 		parse_args()

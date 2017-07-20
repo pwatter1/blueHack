@@ -1,10 +1,12 @@
 {"users": [
     {
         "email": "patrickwatters1995@gmail.com",
-        "password": "Pwatters2"
+        "password": "Pwatters2",
+		"balance": 1000.0
     },
     {
         "email": "mushaffarkhan@gmail.com",
-        "password": "Pwatters2"
+        "password": "Pwatters2",
+		"balance": 450.0
     }
 ]}

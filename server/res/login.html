@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdn.rawgit.com/vast-engineering/jquery-popup-overlay/1.7.13/jquery.popupoverlay.js"></script>
         <title>BlockPay</title>
 
         <!-- Consider adding this to res/css -->
@@ -21,7 +22,6 @@
                 background : url("stock_students.jpg");
                 -webkit-background-size: cover;
                 font-family: 'Roboto', sans-serif;
-                font-size: 48px;
             }
 
             /* a nice description box */
@@ -38,8 +38,11 @@
                 border-radius: 25px;
                 padding: 20px; 
                 width: 100%;
-                height: 100%;
                 min-width: 400px;
+            }
+            .fat-button{
+                height: 100px;
+                font-size: 40px;
             }
             /* used to add padding to the top */
             .top30 { margin-top:30px; }
@@ -47,36 +50,38 @@
 
         <script charset="utf-8">
 
-$(document).ready(function(){
-    // some starting off things
-    //$("#content-box").hide();
+            $(document).ready(function(){
+                // some starting off things
+                 $('#my_popup').popup();
+                //$("#content-box").hide();
 
-    // listeners
-    $("form#login-form").submit(function(){
-        // the user data
-        var email= $("#inputEmail").val();
-        var password = $("#inputPassword").val();
-        var data = {
-            "email": email,
-            "password": password,
-        };
-        $.ajax({
-            url: '/login',
-            type: "POST",
-            dataType: 'json',
-            data: data,
-            success: function(data){
-                console.log(data);
-                $("#loginbox").fadeOut(1000);
-                if (data.data == email)
-                    $("#welcome-msg").text("Welcome");
-                $("#content-box").delay(1000).fadeIn(1000);
-            }
-        });
-        return false;
-    });
+                // listeners
+                $("form#login-form").submit(function(){
+                    // the user data
+                    var email= $("#inputEmail").val();
+                    var password = $("#inputPassword").val();
+                    var data = {
+                        "email": email,
+                        "password": password,
+                    };
+                    $.ajax({
+                        url: '/login',
+                        type: "POST",
+                        dataType: 'json',
+                        data: data,
+                        success: function(data){
+                            console.log(data);
+                            $("#loginbox").fadeOut(750);
+                            if (data.data == email)
+                                $("#welcome-msg").text("User Portal");
+                                $(".userInfo").text("User: " + data.data);
+                            $("#content-box").delay(750).fadeIn(750);
+                        }
+                    });
+                    return false;
+                });
 
-});
+            });
         </script>
 
     </head>
@@ -104,7 +109,104 @@ $(document).ready(function(){
 
             <div id="content-box" class="page-block center-block" >
                 <!-- error is place holder if page doesn't load -->
-                <center><p id="welcome-msg">error</p></center>
+                <center><font size="48px"><p id="welcome-msg">error</p></font></center>
+
+                <div class="row">
+                    <button type="button" data-toggle="modal" data-target="#infoModal" class="fat-button top30 btn btn-block btn-default">Info</button>
+                </div>
+
+                <div class="row">
+                    <button type="button" data-toggle="modal" data-target="#newTransModal" class="fat-button top30 btn btn-block btn-success">New Transaction </button>
+                </div>
+
+                <div class="row">
+                    <button type="button" data-toggle="modal" data-target="#viewTransModal" class="fat-button top30 btn btn-block btn-primary">View Transactions</button>
+                </div>
+
+
+                <!--Info modal -->
+                <div id="infoModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Info</h4>
+                      </div>
+                      <div class="modal-body">
+                          <font size="6"> <p class="userInfo"></p> </font>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--New transaction modal -->
+                <div id="newTransModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">New Transaction</h4>
+                      </div>
+                      <div class="modal-body">
+
+                        <font size="4"> <p> Select user</p></font>
+                        <div class="form-group">
+                              <select class="form-control" id="sel1">
+                                <option>jterner1@binghamton.edu</option>
+                                <option>dlstaff@gmail.com</option>
+                                <option>cornington@burnell.com</option>
+                              </select>
+                        </div>
+
+                        <font size="4"> <p> Select transaction type</p></font>
+                        <div class="form-group">
+                              <select class="form-control" id="sel1">
+                                <option>Pay</option>
+                                <option>Request payment</option>
+                              </select>
+                        </div>
+
+                        <font size="4"> <p> Amount </p></font>
+                        <div class="input-group">
+                            <span class="input-group-addon">$</span>
+                                <input type="text" class="form-control" placeholder="Price"/>
+                        </div>
+
+                        <font size="4"> <p> Memo </p></font>
+                        <div class="form-group">
+                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                        </div>
+
+                        <!-- submit button -->
+                        <button type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--View transaction modal -->
+                <div id="viewTransModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Current Transactions</h4>
+                      </div>
+                      <div class="modal-body">
+                        <p>Something bogus here.</p>
+                        <ul class="list-group">
+                            <li class="list-group-item">New <span class="badge">12</span></li>
+                            <li class="list-group-item">Deleted <span class="badge">5</span></li>
+                            <li class="list-group-item">Warnings <span class="badge">3</span></li>
+                        </ul>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
             </div>
 
 

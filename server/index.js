@@ -1,5 +1,8 @@
 var express = require('express')
 var app = express()
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.listen(8080, function () {
   console.log('listening on port 8080')
@@ -36,3 +39,12 @@ app.post('/', function (req, res) {
   res.send(JSON.stringify(response));
 })
 
+app.post('/login', function (req, res) {
+  console.log(req.body);
+  // send a response 
+  var response = {
+    data:"hello",
+    code:200
+    }
+  res.send(JSON.stringify(response));
+})

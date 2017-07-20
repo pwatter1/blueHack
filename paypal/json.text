@@ -1,0 +1,11 @@
+{"pypal": {
+    "command": {
+        "cmd": "commandName",
+        "sender_email": "pwatter1@bing.edu"
+        "args": [{
+        "amt": 7,
+        "note" : "some string"
+        }],
+        "receiver_email":  "mush@cornell.edu"
+    }
+}}

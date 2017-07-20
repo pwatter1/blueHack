@@ -2,6 +2,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -11,35 +12,62 @@
   <style type="text/css" media="all">
     /* custom jumbotron title*/
     .myjumbotron{
-      background-color: #8c8c8c
+      background-color: #8c8c8c;
+      background: url("metal.jpg");
+      max-height: 200px;
     }
+
+    body{
+      background : url("stock_students.jpg");
+      -webkit-background-size: cover;
+      font-family: 'Roboto', sans-serif;
+      font-size: 48px;
+    }
+
+    /* a nice description box */
+    .desc{
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 25px;
+      padding: 20px; 
+    }
+    /* used to add padding to the top */
+    .top30 { margin-top:30px; }
   </style>
+
+  <script charset="utf-8">
+
+  </script>
   
 </head>
 
 <!-- this looks cool: https://startbootstrap.com/template-overviews/simple-sidebar/ -->
 <body>
   <div class="myjumbotron jumbotron text-center">
-  <img src="res/logo.png" alt="logo" height="200" width="300"/>
+    <img src="logo.png" alt="logo" height="100%" width="300px"/>
   <!-- put a logo here -->
-  <p>An App to make group financing easier!</p>
+  <font color="#16547c"><p><b>An App to make group financing easier!</b></p></font>
 </div>
 
 <div class="container">
+  <div class="desc">
+    <blockquote class="blockquote">
+      <p class="mb-0">
+        This is going to be where we put the amazing the welcome message. It shall be glorious.
+        Lot's of fun stuff
+      </p>
+    </blockquote>
+  </div>
   <div class="row">
-    <div class="col-sm-4">
-      <h3>Column 1</h3>
-      <button type="button" class="btn btn-primary">Button 1</button>
+    <div class="row">
+      <!-- This image might be copyrighted oh nooooooo -->
     </div>
-    <div class="col-sm-4">
-      <h3>Column 2</h3>
-      <button type="button" class="btn btn-primary">Button 2</button>
-    </div>
-    <div class="col-sm-4">
-      <h3>Column 3</h3>
-      <button type="button" class="btn btn-primary">Button 3</button>
+
+  <div>
+    <div class="row">
+      <button type="button" onclick="location.href='/login'" class="top30 btn btn-primary btn-lg btn-block">Let's get started</button>
     </div>
   </div>
+
 </div>
 </body>
 </html>

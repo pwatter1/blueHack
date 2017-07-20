@@ -1,6 +1,14 @@
 var express = require('express')
 var app = express()
 
+app.listen(8080, function () {
+  console.log('listening on port 8080')
+})
+
+/*
+ * STATIC RESOURCES
+ */
+app.use(express.static('res'))
 
 /*
  * GET REQUESTS
@@ -11,9 +19,11 @@ app.get('/', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
 })  
 
-app.get('/res/logo.png', function (req, res) {
-  res.sendFile('res/logo.png', { root: __dirname });
-})  
+
+/*
+ * POST RESPONSES
+ */
+
 app.post('/', function (req, res) {
   var response = {
     data:"hello",
@@ -22,7 +32,3 @@ app.post('/', function (req, res) {
   res.send(JSON.stringify(response));
 })
 
-app.listen(8080, function () {
-  console.log('listening on port 8080')
-})
-//http://localhost:8080/

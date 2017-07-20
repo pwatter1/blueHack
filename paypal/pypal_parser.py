@@ -6,48 +6,47 @@ Pay or charge people via the Rest API.
 Takes in json on stdin and returns results.
 '''
 
-import fcntl
+import yaml 
+import json
 import os
 import errno
 import sys
 from datetime import datetime
-from payments import charge, pay
-
+# from payments import charge, pay
 
 FIFO = 'mypipe'
 
 try:
-	os.mkfifo(FIFO)
-	os.system('echo hello > FIFO')
+	os.mkfifo(FIFO)	
 except OSError as oe:
 	if oe.errno != errno.EEXIST:
 		raise
 
 def parse_args():
-	while True: # continuously reopen
-		json = ''
+	while(True): # continuously reopen
 		with open(FIFO) as fifo:
 			while(True): 
 				data = fifo.read()
 				if len(data) == 0: # or delimiter
 					break 
-				json += data
-		
-		parse_json(json)			
+				parse_json(data)		
 	
 	
-def parse_json(json):
-	cmd = json["paypal"]["command"]["cmd"]	
-	sender_email = json["paypal"]["command"]["sender_email"]
-	receiver_email = json["paypal"]["command"]["receiver_email"]
-	note = json["paypal"]["command"]["args"]["note"]
-	amt = json["paypal"]["command"]["args"]["amt"]
+def parse_json(data):
+	jsn = yaml.safe_load(data)	
+	cmd = jsn["pypal"]["command"]["cmd"]
+	se = jsn["pypal"]["command"]["sender_email"]
+	re = jsn["pypal"]["command"]["receiver_email"]
+	note = jsn["pypal"]["command"]["args"]["note"]
+	amt = jsn["pypal"]["command"]["args"]["amt"]
 
 	if cmd == "pay":
-		pay(amt, note, receiver_email, sender_email)
+		# pay(amt, note, re, se)
+		print("success")	
+		pass
 	else:
-		charge(amt, note, receiver_email, sender_email)
-
+		# charge(amt, note, re, se)
+		pass
 
 def main():
 	try:

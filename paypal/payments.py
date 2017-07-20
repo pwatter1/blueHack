@@ -16,10 +16,10 @@ def charge(amt, note, receiver_email, sender_email): # PayPal Invoice
 def _send_payout_json(amt, note, receiver_email, sender_email):
     ''' if amt is a list of size one, single payout, else multiple '''
 
-    jsn =
-        {"sender_batch_header": {
-            "sender_batch_id": sender_batch_id,
-            "email_subject": "You have a payment"
+    jsn = {
+		"sender_batch_header": {
+            	"sender_batch_id": sender_batch_id,
+            	"email_subject": "You have a payment"
         },
         "items": [
             {
@@ -31,16 +31,17 @@ def _send_payout_json(amt, note, receiver_email, sender_email):
                 "receiver": who_to_pay_email,
                 "note": note,
                 "sender_item_id": "item_1"
-            }
-        ]} 
+            }    
+		]
+	} 
 
     jsn_lst = [jsn] * len(amts)
 
     for i in range(len(amts)):
         sender_batch_id = ''.join(random.choice(string.ascii_uppercase) for x in range(12))
         jsn_lst[i]["sender_batch_header"] = sender_batch_id
-        jsn_lst[i]["items"][0]["amount"]["value"] = amt
-        jsn_lst[i]["items"][0]["receiver"] = who_to_pay_email
+        jsn_lst[i]["items"][0]["amount"]["value"] = amts[i]
+        jsn_lst[i]["items"][0]["receiver"] = 
         jsn_lst[i]["items"][0]["note"] = note
 
         payout = Payout(jst_lst[i])
@@ -51,10 +52,12 @@ def _send_payout_json(amt, note, receiver_email, sender_email):
             print(payout.error)
 
 
-def _send_invoice_json(amt, note, who_to_charge_email):
-	invoice = Invoice({
+def _send_invoice_json(amt, note, receiver_email, sender_email):
+	''' if amt is a list of size one, single payout, else multiple '''
+	
+	jsn = {
         "merchant_info": {
-            "email": "patrickwatters1995@hotmail.com",  # must be paypal sandbox email account
+            "email": sender_email,  # must be paypal sandbox email account
             "first_name": "Patrick",
             "last_name": "Watters",
             "business_name": "Watters Financial",
@@ -70,7 +73,7 @@ def _send_invoice_json(amt, note, who_to_charge_email):
                 "country_code": "US"
             }
         },    
-        "billing_info": [{"email": who_to_charge_email}],
+        "billing_info": [{"email": receiver_email}],
         "items": [
             {
                 "name": "Sutures",
@@ -108,6 +111,23 @@ def _send_invoice_json(amt, note, who_to_charge_email):
             }
         }
     })
+
+	jsn_lst = [jsn] * len(amts)
+
+    for i in range(len(amts)):
+        sender_batch_id = ''.join(random.choice(string.ascii_uppercase) for x in range(12))
+        jsn_lst[i]["sender_batch_header"] = sender_batch_id
+        jsn_lst[i]["items"][0]["amount"]["value"] = amt
+        jsn_lst[i]["items"][0]["receiver"] = who_to_pay_email
+        jsn_lst[i]["items"][0]["note"] = note
+
+        payout = Payout(jst_lst[i])
+
+        if payout.create(sync_mode=True):
+            print("payout[%s] created successfully" % (payout.batch_header.payout_batch_id))
+        else:
+            print(payout.error)
+
 
     if invoice.create() and invoice.send():
         print("Invoice[%s] created and sent successfully" % (invoice.id))

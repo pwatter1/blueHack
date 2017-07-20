@@ -108,7 +108,7 @@ app.post('/addFunds', function (req, res) {
 })
 
 
-app.post('/createItem', function (req, res) {
+app.post('/trans', function (req, res) {
     var itemURL=baseBlockURL+"Item"
     var itemName="jafjkl";
     var price=200;

@@ -11,7 +11,7 @@ import json
 import os
 import errno
 import sys
-from payments import charge, pay
+from payments import pay_or_charge
 import random, string
 
 FI = 'inpipe'
@@ -44,30 +44,30 @@ def parse_json(data):
 	amt      = jsn["pypal"]["command"]["args"]["amt"]
 
 	if cmd == "pay":
-		retVal = pay(sender, receiver, amt)
-		print(retVal)
-		# send_return_json(retVal, receiver)
+		retVal = pay_or_charge(sender, receiver, amt)
+		send_return_json(retVal, receiver)
 	else:
-		retVal = charge(sender, receiver, amt)
-		# send_return_json(retVal, sender)			
+		retVal = pay_or_charge(receiver, sender, amt)
+		send_return_json(retVal, sender)			
 
 
 def send_return_json(retVal, user_getting_money):
-	jsn = {"val": retVal, "user": user_getting_money.email, "user_balance": user_getting_money.acct.getBalance()} 
+	bal = get_users_balance(user_getting_money)
+	jsn = {"val": retVal, "user": user_getting_money, "balance": bal} 
+	print(jsn)
 	fo = open('outpipe', 'w')
 	fo.write(str(jsn))
 
-'''
-def createUsers():
-	with open('users.json') as json_data:
-		d = json.load(json_data)
-		for i in range(d["users"].items()):
-			bal = d["users"][i]["balance"]
-			email = d["users"][i]["email"]
-			pswrd = d["users"][i]["email"]
-			global users.append( User(bal, email, pswrd) )
-'''			
 	
+def get_users_balance(user):
+	with open('users.json', 'r') as usersFile:
+		d = json.load(usersFile)
+	for i in range(len(d["users"])):
+		if d["users"][i]["email"] == user:
+			return d["users"][i]["balance"]
+	return None
+
+
 def main():
 	try:
 		parse_args()

@@ -2,32 +2,32 @@
 
 import json
 
-def pay(sender_email, receiver_email, amt):
-	tmp = False
-	with open('users.json', 'r') as dfile:
-		data = json.load(dfile)
-		jsn.close()
+def pay_or_charge(sender_email, receiver_email, amt):
+	found_user = False
+
+	with open('users.json', 'r') as usersFile:
+		d = json.load(usersFile)
+		usersFile.close()
+
+	for i in range(len(d["users"])):
+		if d["users"][i]["email"] == receiver_email:
+			found_user = True
+
+	if found_user != True:
+		return found_user
 
 	for i in range(len(d["users"])):
 		if d["users"][i]["email"] == receiver_email:
 			d["users"][i]["balance"] += amt
-			tmp = True
+		if d["users"][i]["email"] == sender_email:
+			if (d["users"][i]["balance"] - amt) > 0:
+				d["users"][i]["balance"] -= amt
+			else:
+				return False
 
-	if tmp != True:
-		return tmp
-
-	jsn = open('users.json', 'w')
-	jsn.write(json.dumps(d))
-	jsn.close()
-
-	
-def charge(sender_email, receiver_email, amt):
-	with open('users.json') as jsn:
-		d = json.load(jsn)
-        for i in range(len(d["users"])):
-                if d["users"][i]["email"] == receiver_email:
-                    if (d["users"][i]["balance"] - amt) > 0:
-						d["users"][i]["balance"] = amt
-						return True
-	return False
+	# update balance in users.json (rewrite)
+	usersFile = open('users.json', 'w')
+	usersFile.write(json.dumps(d))
+	usersFile.close()
  
+	return found_user

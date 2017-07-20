@@ -19,9 +19,9 @@
 
             body{
                 background : url("stock_students.jpg");
-            -webkit-background-size: cover;
-            font-family: 'Roboto', sans-serif;
-            font-size: 48px;
+                -webkit-background-size: cover;
+                font-family: 'Roboto', sans-serif;
+                font-size: 48px;
             }
 
             /* a nice description box */
@@ -34,6 +34,7 @@
             }
             .page-block{
                 background: rgba(200, 200, 200, 0.7);
+                display: none;
                 border-radius: 25px;
                 padding: 20px; 
                 width: 100%;
@@ -45,9 +46,10 @@
         </style>
 
         <script charset="utf-8">
+
 $(document).ready(function(){
     // some starting off things
-    $("#content-box").hide();
+    //$("#content-box").hide();
 
     // listeners
     $("form#login-form").submit(function(){
@@ -64,8 +66,10 @@ $(document).ready(function(){
             dataType: 'json',
             data: data,
             success: function(data){
-                alert("We did it");
+                console.log(data);
                 $("#loginbox").fadeOut(1000);
+                if (data.data == email)
+                    $("#welcome-msg").text("Welcome");
                 $("#content-box").delay(1000).fadeIn(1000);
             }
         });
@@ -99,7 +103,8 @@ $(document).ready(function(){
             </div>
 
             <div id="content-box" class="page-block center-block" >
-                <p>hello</p>
+                <!-- error is place holder if page doesn't load -->
+                <center><p id="welcome-msg">error</p></center>
             </div>
 
 

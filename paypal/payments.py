@@ -1,18 +1,19 @@
 #!/usr/bin/python
 
 from  paypalrestsdk import Invoice, Payout
-import paypal # our module
+from types import positive_float
 import json
 
-def pay(amt, note, who): # PayPal Payout
-    _send_payout_json(amt, note, who)
+def pay(amt, note, receiver_email, sender_email): # PayPal Payout
+    _send_payout_json(amt, note, receiver_email, sender_email)
 
-def charge(amt, note, who): # PayPal Invoice
+
+def charge(amt, note, receiver_email, sender_email): # PayPal Invoice
 	amt = -amt
-	_send_invoice_json(amt, note, who)
+	_send_invoice_json(amt, note, receiver_email, sender_email)
 
 
-def _send_payout_json(amt, note, who_to_pay_email):
+def _send_payout_json(amt, note, receiver_email, sender_email):
     ''' if amt is a list of size one, single payout, else multiple '''
 
     jsn =

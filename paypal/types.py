@@ -1,9 +1,4 @@
-'''
-argument types
-'''
-
 import argparse
-
 
 def positive_float(s):
     if float(s) <= 0:

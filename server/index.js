@@ -1,9 +1,18 @@
 var express = require('express')
 var app = express()
 
-// respond with "hello world" when a GET request is made to the homepage
+
+/*
+ * GET REQUESTS
+ */
+
+// get requests for resources
 app.get('/', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
+})  
+
+app.get('/res/logo.png', function (req, res) {
+  res.sendFile('res/logo.png', { root: __dirname });
 })  
 app.post('/', function (req, res) {
   var response = {

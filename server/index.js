@@ -19,6 +19,10 @@ app.get('/', function (req, res) {
   res.sendFile('index.html', { root: __dirname });
 })  
 
+app.get('/login', function (req, res) {
+  res.sendFile('res/login.html', { root: __dirname });
+})  
+
 
 /*
  * POST RESPONSES

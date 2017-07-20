@@ -12,7 +12,8 @@ import os
 import errno
 import sys
 from datetime import datetime
-# from payments import charge, pay
+from payments import charge, pay
+import random, string
 
 FIFO = 'mypipe'
 
@@ -41,9 +42,10 @@ def parse_json(data):
 	amt = jsn["pypal"]["command"]["args"]["amt"]
 
 	if cmd == "pay":
-		# pay(amt, note, re, se)
-		print("success")	
-		pass
+		if pay(amt, note, re, se):
+			print("success")	
+		else:
+			print("failure")
 	else:
 		# charge(amt, note, re, se)
 		pass

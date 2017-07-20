@@ -80,6 +80,24 @@
                     });
                     return false;
                 });
+                $("#transButton").click(function(){
+                    // TODO actually submit real data
+                    alert("pushed");
+                    var data = {
+                        "email": "dsfkldskfl",
+                        "password": "poop",
+                    };
+                    $.ajax({
+                        url: '/trans',
+                        type: "POST",
+                        dataType: 'json',
+                        data: data,
+                        success: function(data){
+                            alert("submitted trans");
+                        }
+                    });
+
+                });
 
             });
         </script>
@@ -149,36 +167,19 @@
                       </div>
                       <div class="modal-body">
 
-                        <font size="4"> <p> Select user</p></font>
-                        <div class="form-group">
-                              <select class="form-control" id="sel1">
-                                <option>jterner1@binghamton.edu</option>
-                                <option>dlstaff@gmail.com</option>
-                                <option>cornington@burnell.com</option>
-                              </select>
-                        </div>
-
-                        <font size="4"> <p> Select transaction type</p></font>
-                        <div class="form-group">
-                              <select class="form-control" id="sel1">
-                                <option>Pay</option>
-                                <option>Request payment</option>
-                              </select>
-                        </div>
-
                         <font size="4"> <p> Amount </p></font>
                         <div class="input-group">
                             <span class="input-group-addon">$</span>
-                                <input type="text" class="form-control" placeholder="Price"/>
+                                <input id="amount" type="text" class="form-control" placeholder="Price"/>
                         </div>
 
-                        <font size="4"> <p> Memo </p></font>
+                        <font size="4"> <p> Item </p></font>
                         <div class="form-group">
-                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                            <input id="item" type="text" class="form-control" id="usr">
                         </div>
 
-                        <!-- submit button -->
-                        <button type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
+                        <!-- transaction submit button -->
+                        <button id="transButton" type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
 
                       </div>
                     </div>
@@ -191,14 +192,23 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Current Transactions</h4>
+                        <h4 class="modal-title">Transaction info</h4>
                       </div>
                       <div class="modal-body">
-                        <p>Something bogus here.</p>
                         <ul class="list-group">
-                            <li class="list-group-item">New <span class="badge">12</span></li>
-                            <li class="list-group-item">Deleted <span class="badge">5</span></li>
-                            <li class="list-group-item">Warnings <span class="badge">3</span></li>
+                            <!-- you can only have one pending transaction -->
+                            <li data-toggle="collapse" data-target="#pendTrans" class="list-group-item">Pending Transactions <span class="badge">1</span></li>
+                                <div id="pendTrans" class="collapse">
+                                    Request payment for groceries
+                                </div>
+                            <li data-toggle="collapse" data-target="#schedTrans" class="list-group-item">Scheduled Transactions <span class="badge">1</span></li>
+                                <div id="schedTrans" class="collapse">
+                                    Request payment for trash bags scheduled for 07/22/2017
+                                </div>
+                            <li data-toggle="collapse" data-target="#prevTrans" class="list-group-item">Previous Transactions <span class="badge">1</span></li>
+                                <div id="prevTrans" class="collapse">
+                                    You submitted a payment for gas money
+                                </div>
                         </ul>
 
                       </div>

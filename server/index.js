@@ -118,7 +118,7 @@ app.post('/getLastItem', function (req, res) {
                     "name":(body[i].item.substring(body[i].item.indexOf("#") + 1)),
                     "price":data.Price
             }
-                res.send(JSON.stringify(returndata));
+                res.send(returndata.name+ ": " + data.Price);
         })
 
 
@@ -181,6 +181,25 @@ var getReq ={
 
 
     })
+
+app.post('/getUserData', function (req, res) { 
+console.log("GETTING BALANCE");
+
+    var fundReq ={
+        method: "GET",
+        uri: baseBlockURL+"Roomate/"+req.body.email,
+        headers: {
+                    'content-type': 'application/json' 
+            }
+    }
+    request(fundReq).then(function(body){
+        body=JSON.parse(body);
+      res.send(""+body.balance);
+    }).catch(function(err){
+      console.log(err);
+    });
+
+})
 
 app.post('/addFunds', function (req, res) {    
 console.log(req.body)

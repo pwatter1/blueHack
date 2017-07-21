@@ -1,0 +1,46 @@
+/**
+ * My commodity trading network
+ */
+namespace org.acme.mynetwork
+
+asset Item identified by purchaseName {
+    o String purchaseName
+    o Double Price
+    --> Roomate owner
+}
+
+asset Lastapproved identified by name {
+    o String name
+    o String last
+}
+participant Roomate identified by roomateId {
+    o String roomateId
+    o String firstName
+    o String lastName
+    o Double balance
+    o Item lastApproved
+}
+
+transaction Approve {
+    --> Item item
+    --> Roomate approver
+}
+
+transaction AddFunds {
+    o Double amount
+    --> Roomate roomate
+}
+
+transaction RemoveFunds {
+    o Double amount
+    --> Roomate roomate
+}
+
+transaction newItem {
+    --> Item item
+}
+
+transaction qualifier{
+  	
+}
+

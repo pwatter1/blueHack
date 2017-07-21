@@ -1,7 +1,8 @@
 # IBM Blue Hack 2017 
 
-Venmo/BlockChain for Roommates.
+Paypal/BlockChain for group financing.
 
+## Teammates
 - Sooyoun Oh
 - Jon Terner
 - Mush Khan

@@ -6,11 +6,11 @@ BlockPay - Blockchain for group financing.
 BlockPay is built on a Node.JS server, interacting with IBM Bluemix Blockchain and a Python backend.
 
 ## Features 
-### App
+#### App
 - Create a charge
 - Submit single payment
 - Submit group payout
-### Blockchain
+#### Blockchain
 - List new item
 - Approve item 
 

@@ -2,6 +2,14 @@
 
 Paypal/BlockChain for group financing.
 
+## Features 
+### App
+- Create charges 
+- Submit single payment or group payout
+### Blockchain
+- List new item
+- Approve item 
+
 ## Teammates
 - Sooyoun Oh
 - Jon Terner

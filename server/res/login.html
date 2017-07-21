@@ -11,6 +11,11 @@
 
         <!-- Consider adding this to res/css -->
         <style type="text/css" media="all">
+.logo{
+                height:100%;
+                max-height:100px;
+                width:300px;
+            }
 /* custom jumbotron title*/
             .myjumbotron{
                 background-color: #8c8c8c;
@@ -49,7 +54,7 @@
         </style>
 
         <script charset="utf-8">
-
+            var email;
             $(document).ready(function(){
                 // some starting off things
                  $('#my_popup').popup();
@@ -58,7 +63,7 @@
                 // listeners
                 $("form#login-form").submit(function(){
                     // the user data
-                    var email= $("#inputEmail").val();
+                    email= $("#inputEmail").val();
                     var password = $("#inputPassword").val();
                     var data = {
                         "email": email,
@@ -82,18 +87,71 @@
                 });
                 $("#transButton").click(function(){
                     // TODO actually submit real data
-                    alert("pushed");
+                  
                     var data = {
-                        "email": "dsfkldskfl",
-                        "password": "poop",
+                        "email": email,
+                        "price": $('#amount').val(),
                     };
                     $.ajax({
-                        url: '/trans',
+                        url: '/addFunds',
                         type: "POST",
                         dataType: 'json',
                         data: data,
                         success: function(data){
                             alert("submitted trans");
+                        }
+                    });
+
+                });
+                $("#newItemButton").click(function(){
+                    // TODO actually submit real data
+                  
+                    var data = {
+                        "email": email,
+                        "name":$('#name').val(),
+                        "price": $('#amountNew').val()
+                    };
+                    $.ajax({
+                        url: '/addNewItem',
+                        type: "POST",
+                        dataType: 'json',
+                        data: data,
+                        success: function(data){
+                            alert("submitted item");
+                        }
+                    });
+
+                });
+                $("#viewTransModal").click(function(){
+                    // TODO actually submit real data
+                    
+                    var data = {
+                        "email": email
+                    };
+                    $.ajax({
+                        url: '/approve',
+                        type: "POST",
+                        dataType: 'json',
+                        data: data,
+                        success: function(data){
+                            alert("submitted trans");
+                        }
+                    });
+
+                });
+                $("#info").click(function(){
+                    // TODO actually submit real data
+                    
+                    var data = {
+                        "email": email
+                    };
+                    $.ajax({
+                        url: '/getLastItem',
+                        type: "POST",
+                        dataType: 'json',
+                        data: data,
+                        success: function(data){
+                            alert(JSON.stringify(data));
                         }
                     });
 
@@ -107,7 +165,7 @@
     <!-- this looks cool: https://startbootstrap.com/template-overviews/simple-sidebar/ -->
     <body>
         <div class="myjumbotron jumbotron text-center">
-            <img src="logo.png" alt="logo" height="100%" width="300px"/>
+            <img src="logo.png" class="logo" alt="logo" height="100%" width="300px"/>
             <!-- put a logo here -->
             <font color="#16547c"><p><b>An App to make group financing easier!</b></p></font>
         </div>
@@ -130,17 +188,19 @@
                 <center><font size="48px"><p id="welcome-msg">error</p></font></center>
 
                 <div class="row">
-                    <button type="button" data-toggle="modal" data-target="#infoModal" class="fat-button top30 btn btn-block btn-default">Info</button>
+                    <button type="button" data-toggle="modal" data-target="#infoModal" id="info" class="fat-button top30 btn btn-block btn-default">Info</button>
                 </div>
 
                 <div class="row">
-                    <button type="button" data-toggle="modal" data-target="#newTransModal" class="fat-button top30 btn btn-block btn-success">New Transaction </button>
+                    <button type="button" data-toggle="modal" data-target="#newTransModal" class="fat-button top30 btn btn-block btn-success">Add Funds</button>
                 </div>
 
                 <div class="row">
-                    <button type="button" data-toggle="modal" data-target="#viewTransModal" class="fat-button top30 btn btn-block btn-primary">View Transactions</button>
+                    <button type="button" data-toggle="modal" data-target="#viewTransModal" class="fat-button top30 btn btn-block btn-primary">Approve current item</button>
                 </div>
-
+                <div class="row">
+                    <button type="button" data-toggle="modal" data-target="#newItemModal" class="fat-button top30 btn btn-block btn-primary">List new Item</button>
+                </div>
 
                 <!--Info modal -->
                 <div id="infoModal" class="modal fade" role="dialog">
@@ -163,7 +223,7 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">New Transaction</h4>
+                        <h4 class="modal-title">Add funds</h4>
                       </div>
                       <div class="modal-body">
 
@@ -173,13 +233,34 @@
                                 <input id="amount" type="text" class="form-control" placeholder="Price"/>
                         </div>
 
-                        <font size="4"> <p> Item </p></font>
-                        <div class="form-group">
-                            <input id="item" type="text" class="form-control" id="usr">
+                        <!-- transaction submit button -->
+                        <button id="transButton" type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!--New transaction modal -->
+                <div id="newItemModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">New Item</h4>
+                      </div>
+                      <div class="modal-body">
+
+                        <font size="4"> <p> Amount </p></font>
+                        <div class="input-group">
+                                    <input id="name" type="text" class="form-control" placeholder="Name"/>
+                            <span class="input-group-addon">$</span>
+                                <input id="amountNew" type="text" class="form-control" placeholder="Price"/>
                         </div>
 
                         <!-- transaction submit button -->
-                        <button id="transButton" type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
+                        <button id="newItemButton" type="button" data-dismiss="modal" class="btn btn-success">Submit</button>
 
                       </div>
                     </div>

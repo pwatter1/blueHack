@@ -85,11 +85,110 @@ app.post('/login', function (req, res) {
     });
 })
 
+app.post('/getLastItem', function (req, res) {    
+ var itemURL=baseBlockURL+"Item"
+    var getReq ={
+        method: "GET",
+        uri: baseBlockURL+"/system/transactions",
+        headers: {
+                    'content-type': 'application/json' 
+            }
+    }
+    request(getReq).then(function(body){
+        
+      body=JSON.parse(body);
+        body=body.sort(function(a,b){
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+        console.log(body);
+        for(i=0;i<body.length;i++){
+            if(body[i].$class=="org.acme.mynetwork.Approve") break;
+        }
+        var checkExists={
+            method: 'GET',
+            uri: itemURL+"/"+(body[i].item.substring(body[i].item.indexOf("#") + 1))
+        }
+        request(checkExists).then(function(data){
+            data=JSON.parse(data);
+            console.log(data)
+                returndata={
+                    "name":(body[i].item.substring(body[i].item.indexOf("#") + 1)),
+                    "price":data.Price
+            }
+                res.send(JSON.stringify(returndata));
+        })
+
+
+
+
+    }).catch(function(err){
+      console.log(err);
+    });
+})
+
+
+app.post('/approve', function (req, res) {    
+console.log(req.body);
+var getReq ={
+        method: "GET",
+        uri: baseBlockURL+"/system/transactions",
+        headers: {
+                    'content-type': 'application/json' 
+            }
+    }
+    request(getReq).then(function(body){
+        
+      body=JSON.parse(body);
+        body=body.sort(function(a,b){
+          // Turn your strings into dates, and then subtract them
+          // to get a value that is either negative, positive, or zero.
+          return new Date(b.timestamp) - new Date(a.timestamp);
+        });
+        for(i=0;i<body.length;i++){
+            if(body[i].$class=="org.acme.mynetwork.Approve") break;
+        }
+        
+    var approveData={
+          "$class": "org.acme.mynetwork.Approve",
+          "item": body[i].item.substring(body[i].item.indexOf("#") + 1) ,
+          "approver": req.body.email
+    }
+
+    var approveReq ={
+        method: "POST",
+        uri: baseBlockURL+"Approve",
+        headers: {
+                    'content-type': 'application/json' 
+            },
+        body: JSON.stringify(approveData)
+    }
+    request(approveReq).then(function(data ){
+        console.log(data);
+        res.send((body[i].item.substring(body[i].item.indexOf("#") + 1)))
+      //res
+    }).catch(function(err){
+      console.log(err);
+    });
+
+
+
+    }).catch(function(err){
+      console.log(err);
+    });
+
+
+
+    })
+
 app.post('/addFunds', function (req, res) {    
+console.log(req.body)
+
     var fundData={
         "$class": "org.acme.mynetwork.AddFunds",
-        "amount": 100,
-        "roomate": "Alice",
+        "amount": req.body.price,
+        "roomate": req.body.email,
     }
     var fundReq ={
         method: "POST",
@@ -102,17 +201,18 @@ app.post('/addFunds', function (req, res) {
     request(fundReq).then(function(body){
       //res
     }).catch(function(err){
-      //err
+      console.log(err);
     });
 
 })
 
 
-app.post('/trans', function (req, res) {
+app.post('/addNewItem', function (req, res) {
+    console.log(req.body);
     var itemURL=baseBlockURL+"Item"
-    var itemName="jafjkl";
-    var price=200;
-    var userId="Alice";
+    var itemName=req.body.name;
+    var price=req.body.price;
+    var userId=req.body.email;
     console.log(itemURL);
     var checkExists={
         method: 'GET',
@@ -123,8 +223,10 @@ app.post('/trans', function (req, res) {
           "$class": "org.acme.mynetwork.Item",
           "purchaseName": itemName,
           "Price":price,
-          "owner": "Alice"
+          "owner": userId
         }
+console.log("HEREEER")
+console.log(JSON.stringify(itemData));
         
         var postItem={
             method: 'PUT',
@@ -135,7 +237,25 @@ app.post('/trans', function (req, res) {
             body: JSON.stringify(itemData)
         }
         request(postItem).then(function(body){
-            //res
+            var approveData={
+                  "$class": "org.acme.mynetwork.Approve",
+                  "item": itemName ,
+                  "approver": userId
+            }
+            var approveReq ={
+                method: "POST",
+                uri: baseBlockURL+"Approve",
+                headers: {
+                            'content-type': 'application/json' 
+                    },
+                body: JSON.stringify(approveData)
+            }
+            request(approveReq).then(function(data ){
+                console.log(data);
+                res.send("updating item, and approved")
+            }).catch(function(err){
+              console.log(err);
+            });
         }).catch(function(err){
             console.log(err);
         })
@@ -150,9 +270,10 @@ app.post('/trans', function (req, res) {
           "$class": "org.acme.mynetwork.Item",
           "purchaseName": itemName,
           "Price":price,
-          "owner": "Alice"
+          "owner": userId
         }
-        
+        console.log("HEREEER")
+console.log(JSON.stringify(itemData));
         var postItem={
             method: 'POST',
             uri: itemURL,
@@ -162,7 +283,25 @@ app.post('/trans', function (req, res) {
             body: JSON.stringify(itemData)
         }
         request(postItem).then(function(body){
-            //res
+            var approveData={
+                  "$class": "org.acme.mynetwork.Approve",
+                  "item": itemName ,
+                  "approver": userId
+            }
+            var approveReq ={
+                method: "POST",
+                uri: baseBlockURL+"Approve",
+                headers: {
+                            'content-type': 'application/json' 
+                    },
+                body: JSON.stringify(approveData)
+            }
+            request(approveReq).then(function(data ){
+                console.log(data);
+                res.send("new item, and approved")
+            }).catch(function(err){
+              console.log(err);
+            });
         }).catch(function(err){
             console.log(err);
         })

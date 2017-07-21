@@ -1,6 +1,6 @@
 # IBM Blue Hack 2017 
 
-Blockchain for group financing.
+BlockPay - Blockchain for group financing.
 
 ## Technologies
 BlockPay is built on a Node.JS server, interacting with IBM Bluemix Blockchain and a Python backend.

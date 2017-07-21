@@ -73,7 +73,7 @@ app.post('/login', function (req, res) {
         if (!validEntry){
             // unimplemented please help
             console.log("dead");
-            process.exit();
+            //process.exit();
         }
         else {
             response = {
@@ -95,7 +95,8 @@ app.post('/getLastItem', function (req, res) {
             }
     }
     request(getReq).then(function(body){
-        
+               console.log("HERE" + body);
+
       body=JSON.parse(body);
         body=body.sort(function(a,b){
           // Turn your strings into dates, and then subtract them
@@ -139,7 +140,6 @@ var getReq ={
             }
     }
     request(getReq).then(function(body){
-        
       body=JSON.parse(body);
         body=body.sort(function(a,b){
           // Turn your strings into dates, and then subtract them

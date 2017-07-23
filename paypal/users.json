@@ -1,1 +1,14 @@
-{"users": [{"balance": 1004.0, "password": "abc", "email": "patrickwatters1995@gmail.com"}, {"balance": 20496.0, "password": "abc", "email": "mushaffarkhan@gmail.com"}, {"balance": 20496.0, "password": "abc", "email": "jonathan.terner@ibm.com"}, {"balance": 20496.0, "password": "abc", "email": "sooyoun.0@gmail.com"}]}
+{"users": 
+        [{"balance": 1004.0, 
+          "password": "abc", 
+          "email": "patrickwatters1995@gmail.com"},
+         {"balance": 20496.0, 
+          "password": "abc", 
+          "email": "mushaffarkhan@gmail.com"}, 
+         {"balance": 20496.0, 
+          "password": "abc", 
+          "email": "jonathan.terner@ibm.com"}, 
+         {"balance": 20496.0, 
+          "password": "abc", 
+          "email": "sooyoun.0@gmail.com"}]
+}

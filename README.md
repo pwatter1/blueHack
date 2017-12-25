@@ -1,7 +1,7 @@
 # IBM Blue Hack 2017 
 
-BlockPay - Blockchain for group financing.
-Tied for 1st in the Cognitive solutions and Blockchain category at Bluehack 2017 in Yorktown Heights, NY.
+BlockPay - Blockchain for group financing. <br \>
+Tied for 1st in the Cognitive solutions and Blockchain category at Bluehack 2017 in Yorktown Heights, NY. <br \>
 https://www.blueopen.org/home
 
 ## Technologies

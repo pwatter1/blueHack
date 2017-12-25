@@ -1,15 +1,22 @@
 # IBM Blue Hack 2017 
 
 BlockPay - Blockchain for group financing.
+Tied for 1st in the Cognitive solutions and Blockchain category at Bluehack 2017 in Yorktown Heights, NY.
+https://www.blueopen.org/home
 
 ## Technologies
-BlockPay is built on a Node.JS server, interacting with IBM Bluemix Blockchain and a Python backend.
+- Node.JS server
+- Hypervisor Blockchain 
+- Python backend
 
 ## Features 
 #### App
 - Create a charge
 - Submit single payment
 - Submit group payout
+- Login/Logout
+- User profile/accounts
+
 #### Blockchain
 - List new item
 - Approve item 

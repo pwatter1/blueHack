@@ -1,7 +1,6 @@
 # IBM Blue Hack
-
-BlockPay - Blockchain for group financing. <br />
-Tied for 1st in Blockchain category out of all participating teams and locations. BlockPay is a payment system that utilizes blockchain to make group financing easier. Used Hyperledger composer to make a blockchain that stores every group's transactions within a block, then uses a PayPal/Venmo like service to charge members within the group once a transaction is discussed/approved by all members.<br />
+Tied for 1st in Blockchain category out of 77 participating teams and 22 locations. <br />
+BlockPay is a payment system that utilizes blockchain to make group financing easier. Used Hyperledger composer to make a blockchain that stores every group's transactions within a block, then uses a PayPal/Venmo like service to charge members within the group once a transaction is discussed/approved by all members.<br />
 https://www.blueopen.org/home
 
 ## Technologies
